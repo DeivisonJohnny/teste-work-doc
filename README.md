@@ -14,8 +14,6 @@ A página inicia a requisição utilizando o service responsável pela comunica�
 const res = await FilmApi.listPosterWithPagination({ page, limit });
 ```
 
-````
-
 ---
 
 ### 2. ⚙️ Service (FilmApi)
@@ -104,6 +102,3 @@ A arquitetura adotada segue boas práticas de desenvolvimento de software, com f
 - **⚙️ Escalabilidade:** Fácil de estender com novos filtros, autenticação, cache, etc.
 - **🧪 Testabilidade:** Isola a lógica, facilitando testes unitários e de integração.
 - **📦 Organização e Manutenção:** Clareza na estrutura e facilidade de manutenção futura.
-
----
-````
