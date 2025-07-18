@@ -1,8 +1,3 @@
-Claro! Aqui está o conteúdo completo de um arquivo `README.md` formatado e pronto para uso. Você pode copiar e colar diretamente no seu projeto:
-
----
-
-````markdown
 # 🎬 Film API - Fluxo da Requisição com Paginação
 
 Este projeto implementa uma API para listagem de filmes com suporte a paginação e busca por título. A seguir está descrito o fluxo completo da requisição, desde o front-end até a consulta ao banco de dados, incluindo uma justificativa da arquitetura adotada.
@@ -18,6 +13,7 @@ A página inicia a requisição utilizando o service responsável pela comunica�
 ```ts
 const res = await FilmApi.listPosterWithPagination({ page, limit });
 ```
+
 ````
 
 ---
@@ -178,3 +174,4 @@ Este projeto está licenciado sob a [MIT License](LICENSE).
 
 Se quiser, posso adicionar instruções de instalação ou execução local da API também. Deseja isso?
 ```
+````
