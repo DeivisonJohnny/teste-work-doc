@@ -1,9 +1,46 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+model Filme {
+  id         String @id @default(uuid())
+  title      String
+  year       String
+  rated      String
+  released   String
+  runtime    String
+  genre      String
+  director   String
+  writer     String
+  actors     String
+  plot       String @db.Text
+  language   String
+  country    String
+  awards     String
+  poster     String
+  metascore  String
+  imdbRating String
+  imdbVotes  String
+  imdbID     String @unique
+  type       String
+  DVD        String
+  boxOffice  String
+  production String
+  website    String
+
+  ratings Rating[]
+}
+
+model Rating {
+  id     String @id @default(uuid())
+  source String
+  value  String
+
+  filmeId String
+  filme   Filme  @relation(fields: [filmeId], references: [id])
 }

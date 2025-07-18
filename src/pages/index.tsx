@@ -1,115 +1,216 @@
+"use client";
+
+import { useState, useMemo } from "react";
 import Image from "next/image";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Search } from "lucide-react";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+interface Movie {
+  Title: string;
+  Year: string;
+  imdbID: string;
+  Type: string;
+  Poster: string;
+}
 
 export default function Home() {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // Dados de exemplo no formato fornecido
+  const movies: Movie[] = [
+    {
+      Title: "Star Wars: Episode IV - A New Hope",
+      Year: "1977",
+      imdbID: "tt0076759",
+      Type: "movie",
+      Poster:
+        "https://cdn.bcdn.zip/wp-content/uploads/2025/04/hiaeZKl-120x170.png",
+    },
+    {
+      Title: "The Matrix",
+      Year: "1999",
+      imdbID: "tt0133093",
+      Type: "movie",
+      Poster: "https://picsum.photos/200/300",
+    },
+    {
+      Title: "Inception",
+      Year: "2010",
+      imdbID: "tt1375666",
+      Type: "movie",
+      Poster: "https://picsum.photos/200/300",
+    },
+    {
+      Title: "The Dark Knight",
+      Year: "2008",
+      imdbID: "tt0468569",
+      Type: "movie",
+      Poster: "https://picsum.photos/200/300",
+    },
+    {
+      Title: "Pulp Fiction",
+      Year: "1994",
+      imdbID: "tt0110912",
+      Type: "movie",
+      Poster: "https://picsum.photos/200/300",
+    },
+    {
+      Title: "The Godfather",
+      Year: "1972",
+      imdbID: "tt0068646",
+      Type: "movie",
+      Poster: "https://picsum.photos/200/300",
+    },
+    {
+      Title: "Breaking Bad",
+      Year: "2008",
+      imdbID: "tt0903747",
+      Type: "series",
+      Poster: "https://picsum.photos/200/300",
+    },
+    {
+      Title: "Game of Thrones",
+      Year: "2011",
+      imdbID: "tt0944947",
+      Type: "series",
+      Poster: "https://picsum.photos/200/300",
+    },
+    {
+      Title: "The Shawshank Redemption",
+      Year: "1994",
+      imdbID: "tt0111161",
+      Type: "movie",
+      Poster: "https://picsum.photos/200/300",
+    },
+    {
+      Title: "Forrest Gump",
+      Year: "1994",
+      imdbID: "tt0109830",
+      Type: "movie",
+      Poster: "https://picsum.photos/200/300",
+    },
+    {
+      Title: "The Lord of the Rings: The Fellowship of the Ring",
+      Year: "2001",
+      imdbID: "tt0120737",
+      Type: "movie",
+      Poster: "https://picsum.photos/200/300",
+    },
+    {
+      Title: "Stranger Things",
+      Year: "2016",
+      imdbID: "tt4574334",
+      Type: "series",
+      Poster: "https://picsum.photos/200/300",
+    },
+  ];
+
+  // Filtrar filmes baseado no termo de busca
+  const filteredMovies = useMemo(() => {
+    if (!searchTerm.trim()) {
+      return movies;
+    }
+
+    return movies.filter((movie) =>
+      movie.Title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [searchTerm]);
+
+  const getTypeColor = (type: string) => {
+    switch (type.toLowerCase()) {
+      case "movie":
+        return "bg-blue-100 text-blue-800 hover:bg-blue-200";
+      case "series":
+        return "bg-green-100 text-green-800 hover:bg-green-200";
+      default:
+        return "bg-gray-100 text-gray-800 hover:bg-gray-200";
+    }
+  };
+
   return (
-    <div
-      className={`${geistSans.className} ${geistMono.className} font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20`}
-    >
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/pages/index.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className=" w-full px-16 py-8 bg-white">
+      {/* Header */}
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-center text-black mb-2">
+          Catálogo de Filmes
+        </h1>
+        <p className="text-muted-foreground text-center mb-6">
+          Descubra e explore nossa coleção de filmes e séries
+        </p>
+
+        {/* Campo de busca */}
+        <div className="relative max-w-md mx-auto">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+          <Input
+            type="text"
+            placeholder="Buscar filmes pelo título..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-10"
+          />
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </div>
+
+      {/* Contador de resultados */}
+      <div className="mb-6">
+        <p className="text-sm text-muted-foreground">
+          {filteredMovies.length}{" "}
+          {filteredMovies.length === 1
+            ? "resultado encontrado"
+            : "resultados encontrados"}
+          {searchTerm && <span className="ml-1">para "{searchTerm}"</span>}
+        </p>
+      </div>
+
+      {/* Grid de filmes */}
+      {filteredMovies.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6">
+          {filteredMovies.map((movie) => (
+            <Card
+              key={movie.imdbID}
+              className="overflow-hidden hover:shadow-lg transition-shadow duration-300 py-0 pb-6"
+            >
+              <div className="aspect-[2/3] relative">
+                <Image
+                  src={movie.Poster || "/placeholder.svg"}
+                  alt={movie.Title}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, (max-width: 1280px) 25vw, 20vw"
+                />
+              </div>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-semibold line-clamp-2 min-h-[2.5rem]">
+                  {movie.Title}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted-foreground font-medium">
+                    {movie.Year}
+                  </span>
+                  <Badge
+                    variant="secondary"
+                    className={`text-xs capitalize ${getTypeColor(movie.Type)}`}
+                  >
+                    {movie.Type}
+                  </Badge>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      ) : (
+        <div className="text-center py-12">
+          <div className="text-muted-foreground mb-4">
+            <Search className="h-12 w-12 mx-auto mb-4 opacity-50" />
+            <p className="text-lg">Nenhum filme encontrado</p>
+            <p className="text-sm">Tente buscar com um termo diferente</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
