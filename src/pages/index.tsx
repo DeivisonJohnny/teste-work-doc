@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -39,20 +39,22 @@ export default function Home() {
       }
     }
     fetchData();
-  }, [page]);
+  }, [page, limit]);
 
-  async function handleSearch() {
+  const handleSearch = useCallback(async () => {
     try {
       const { data } = await FilmApi.listPosterWithPagination({
         search: searchTerm,
       });
       setMovies(data);
-    } catch (error) {}
-  }
+    } catch (error) {
+      console.log(error);
+    }
+  }, [searchTerm]);
 
   useEffect(() => {
     handleSearch();
-  }, [searchTerm]);
+  }, [searchTerm, handleSearch]);
 
   const getTypeColor = (type: string) => {
     switch (type.toLowerCase()) {
@@ -93,7 +95,9 @@ export default function Home() {
           {movies.length === 1
             ? "resultado encontrado"
             : "resultados encontrados"}
-          {searchTerm && <span className="ml-1">para "{searchTerm}"</span>}
+          {searchTerm && (
+            <span className="ml-1">para &quot;{searchTerm}&quot;</span>
+          )}
         </p>
       </div>
 

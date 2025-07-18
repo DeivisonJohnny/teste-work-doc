@@ -35,8 +35,8 @@ export type Film = {
   ratings: Rating[];
 };
 
-interface PaginatedResponse {
-  data: any;
+interface PaginatedResponse<T> {
+  data: T[];
   page: number;
   limit: number;
   total: number;
@@ -48,7 +48,7 @@ export default class FilmApi {
     page = 1,
     limit = 8,
     search = "",
-  }): Promise<PaginatedResponse> {
+  }): Promise<PaginatedResponse<Film>> {
     return Api.get(`/film-poster?page=${page}&limit=${limit}&search=${search}`);
   }
 
